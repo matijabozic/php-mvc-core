@@ -8,12 +8,12 @@ To use this class you need to set your database configuration. Database configur
 
 <pre>
 $config = array(
-	'driver'   => 'mysql',
-	'host'     => 'localhost',
-	'name'     => 'test',
-	'username' => 'root',
-	'password' => '******',
-	'options'  => array(),
+    'driver'   => 'mysql',
+    'host'     => 'localhost',
+    'name'     => 'test',
+    'username' => 'root',
+    'password' => '******',
+    'options'  => array(),
 );
 </pre>
 

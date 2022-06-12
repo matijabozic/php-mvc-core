@@ -39,12 +39,12 @@ This is how `$configs` should look like:
 
 <pre>
 array(
-	'database.driver'   => 'pdo_mysql',	
-	'database.name'     => 'test',
-	'database.username' => 'root',
-	'database.password' => '*****',
+    'database.driver'   => 'pdo_mysql',	
+    'database.name'     => 'test',
+    'database.username' => 'root',
+    'database.password' => '*****',
 
-	// Define any variable you want to reference in $services
+    // Define any variable you want to reference in $services
  
 );
 </pre>
@@ -53,13 +53,13 @@ And this is how you would define simple Database service in `$services`:
 
 <pre>
 array(
-	'Database' => 
-		array(
-			'class' => '\Core\Database\Database',
-			'params' => array(:database.driver, :database.name, :database.username, :database.password),
-			'shared' => false,
-			'protected' => false,			
-		),
+    'Database' => 
+        array(
+            'class' => '\Core\Database\Database',
+            'params' => array(:database.driver, :database.name, :database.username, :database.password),
+            'shared' => false,
+            'protected' => false,			
+        ),
 );
 </pre>
 
@@ -88,17 +88,17 @@ While defining service these are all possible definitions you can use:
 <pre>
 $services = array(
 'ServiceName' => 
-	array (
-		'class'     => 'ClassName',
-		'factory'   => array('class'  => 'FactoryClass',
-							 'method' => 'FactoryMethod', 
-							 'params' => array('param1', 'param2'),
-							 ),	
-		'params'    => array(':name', '::service'),
-		'calls'     => array('method1' => array('param1', 'param2'), 'method2' => array('param3')),
-		'shared'    => false,
-		'protected' => false,
-	),
+    array (
+        'class'     => 'ClassName',
+        'factory'   => array('class'  => 'FactoryClass',
+                             'method' => 'FactoryMethod', 
+                             'params' => array('param1', 'param2'),
+                             ),	
+        'params'    => array(':name', '::service'),
+        'calls'     => array('method1' => array('param1', 'param2'), 'method2' => array('param3')),
+        'shared'    => false,
+        'protected' => false,
+    ),
 );
 </pre>
 
@@ -126,21 +126,21 @@ To load Twig, we need instance of `Twig_Environment`, and `Twig_Environment` nee
 
 <pre>
 array(
-	'TwigLoader' => 
-		array(
-			'class' => 'Twig_Loader_Filesystem',
-			'params' => array(':views.location'),
-			'shared' => false,
-			'protected' => true,
-		),
-	
-	'Twig' => 
-		array(
-			'class' => 'Twig_Environment',
-			'params' => array('::TwigLoader', array()),
-			'shared' => false,
-			'protected' => false,			
-		),
+    'TwigLoader' => 
+        array(
+            'class' => 'Twig_Loader_Filesystem',
+            'params' => array(':views.location'),
+            'shared' => false,
+            'protected' => true,
+        ),
+    
+    'Twig' => 
+        array(
+            'class' => 'Twig_Environment',
+            'params' => array('::TwigLoader', array()),
+            'shared' => false,
+            'protected' => false,			
+        ),
 )
 </pre>
 
@@ -160,35 +160,35 @@ Doctrine ORM uses factory methods to return object instances, so this example sh
 
 <pre>
 array (
-	'DoctrineOrmConfig' => 
-		array (
-			'factory'   => array('class'  => '\Doctrine\ORM\Tools\Setup',
-								 'method' => 'createAnnotationMetadataConfiguration', 
-								 'params' => array(array(':entities.path'), false),
-								 ),
-			'calls'     => array('setProxyDir' => array(':proxies.path'),
-								 'setProxyNamespace' => array(':proxies.namespace'),
-								 'setAutoGenerateProxyClasses' => array(true),
-								),
-			'shared'    => false,
-			'protected' => true,
-		),
-	
-	'DoctrineOrm' => 
-		array(
-			'factory'   => array('class'  => '\Doctrine\ORM\EntityManager',
-								 'method' => 'create', 
-								 'params' => array(array(
-								 	'driver' => ':database.driver', 
-								 	'user' => ':database.username', 
-								 	'password' => ':database.password', 
-								 	'dbname' => ':database.name'), 
-								 	'::DoctrineOrmConfig'
-									),
-								 ),
-			'shared'    => false,
-			'protected' => false,		
-		),
+    'DoctrineOrmConfig' => 
+        array (
+            'factory'   => array('class'  => '\Doctrine\ORM\Tools\Setup',
+                                 'method' => 'createAnnotationMetadataConfiguration', 
+                                 'params' => array(array(':entities.path'), false),
+                                 ),
+            'calls'     => array('setProxyDir' => array(':proxies.path'),
+                                 'setProxyNamespace' => array(':proxies.namespace'),
+                                 'setAutoGenerateProxyClasses' => array(true),
+                                ),
+            'shared'    => false,
+            'protected' => true,
+        ),
+    
+    'DoctrineOrm' => 
+        array(
+            'factory'   => array('class'  => '\Doctrine\ORM\EntityManager',
+                                 'method' => 'create', 
+                                 'params' => array(array(
+                                     'driver' => ':database.driver', 
+                                     'user' => ':database.username', 
+                                     'password' => ':database.password', 
+                                     'dbname' => ':database.name'), 
+                                     '::DoctrineOrmConfig'
+                                    ),
+                                 ),
+            'shared'    => false,
+            'protected' => false,		
+        ),
 </pre>
 
 Again, DoctrineOrm Service depends on DoctrineOrmConfig, but this time we use factory methods.

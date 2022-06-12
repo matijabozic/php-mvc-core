@@ -76,41 +76,41 @@ In our Blog Controller we would do this:
 ```php
 public function post($request)
 {
-	// Get Doctrine Entity Manager and Twig instances using DIC
-	$orm = $this->container->getService("DoctrineOrm");
-	$twig = $this->container->getService("Twig");
+    // Get Doctrine Entity Manager and Twig instances using DIC
+    $orm = $this->container->getService("DoctrineOrm");
+    $twig = $this->container->getService("Twig");
 
-	// Get page variable from URL
-	$page = $request->get('page');
+    // Get page variable from URL
+    $page = $request->get('page');
 
-	// Get limit variable from URL
-	$limit = $request->get('limit');
+    // Get limit variable from URL
+    $limit = $request->get('limit');
 
-	// Get total items count using Doctrine ORM
-	$items = $orm->createQuery('SELECT COUNT(p.id) FROM Models\Entities\Post p')->getSingleScalarResult();
+    // Get total items count using Doctrine ORM
+    $items = $orm->createQuery('SELECT COUNT(p.id) FROM Models\Entities\Post p')->getSingleScalarResult();
 
-	// And lets set number of links before and after current page to 5
-	$links = 5;
+    // And lets set number of links before and after current page to 5
+    $links = 5;
 
-	// Lets also fetch posts from database, just to make this example complete
-	$offset = ($page - 1) * $limit;
-	$posts = $orm->getRepository('\Models\Entities\Post')->findBy(array(), array(), $limit, $offset);
+    // Lets also fetch posts from database, just to make this example complete
+    $offset = ($page - 1) * $limit;
+    $posts = $orm->getRepository('\Models\Entities\Post')->findBy(array(), array(), $limit, $offset);
 
-	// Now lets instantiate our Pagination class with defined variables
-	$pagination = new \Core\Pagination\Pagination($page, $limit, $items, $links);
+    // Now lets instantiate our Pagination class with defined variables
+    $pagination = new \Core\Pagination\Pagination($page, $limit, $items, $links);
 
-	// And ask for pagination information
-	$pinfo = $pagination->getPaginationInfo();
+    // And ask for pagination information
+    $pinfo = $pagination->getPaginationInfo();
 
-	// Finaly render the page
-	$content = $twig->render('Blog/posts.html', array(
-		'posts' => $posts,
-		'pinfo' => $pinfo,
-	));
+    // Finaly render the page
+    $content = $twig->render('Blog/posts.html', array(
+        'posts' => $posts,
+        'pinfo' => $pinfo,
+    ));
 
-	// And send HTTP Response to user
-	$response = new \Core\Http\Response($content, 200);
-	$response->send();
+    // And send HTTP Response to user
+    $response = new \Core\Http\Response($content, 200);
+    $response->send();
 }
 ```
 
@@ -138,38 +138,38 @@ Now lets build Twig template, Blog/posts.html can look like this:
 
 ```twig
 <div id="posts">
-	{% for post in posts %}
-		// -- SNIP --
-		// Do your magic with posts
-		// -- SNIP --
-	{% endfor %}
+    {% for post in posts %}
+        // -- SNIP --
+        // Do your magic with posts
+        // -- SNIP --
+    {% endfor %}
 </div>
 
 <div id="pagination">
-	<a href="/posts?page={{pinfo.pageFirst}}&limit={{pinfo.pagesLimit}}">First</a>
+    <a href="/posts?page={{pinfo.pageFirst}}&limit={{pinfo.pagesLimit}}">First</a>
 
-	{% if pinfo.pageBack is defined %}
-	<a href="/posts?page={{pinfo.pageBack}}&limit={{pinfo.pagesLimit}}">Back</a>
-	{% endif %}
+    {% if pinfo.pageBack is defined %}
+    <a href="/posts?page={{pinfo.pageBack}}&limit={{pinfo.pagesLimit}}">Back</a>
+    {% endif %}
 
-	{% for page in pinfo.pagesBack %}
-	<a href="/posts?page={{page}}&limit={{pinfo.pagesLimit}}">{{page}}</a>
-	{% endfor %}
+    {% for page in pinfo.pagesBack %}
+    <a href="/posts?page={{page}}&limit={{pinfo.pagesLimit}}">{{page}}</a>
+    {% endfor %}
 
-	<b><a href="/posts?page={{pinfo.pageCurrent}}&limit={{pinfo.pagesLimit}}">{{pinfo.pageCurrent}}</a></b>
+    <b><a href="/posts?page={{pinfo.pageCurrent}}&limit={{pinfo.pagesLimit}}">{{pinfo.pageCurrent}}</a></b>
 
-	{% for page in pinfo.pagesNext %}
-	<a href="/posts?page={{page}}&limit={{pinfo.pagesLimit}}">{{page}}</a>
-	{% endfor %}
+    {% for page in pinfo.pagesNext %}
+    <a href="/posts?page={{page}}&limit={{pinfo.pagesLimit}}">{{page}}</a>
+    {% endfor %}
 
-	{% if pinfo.pageNext is defined %}
-	<a href="/posts?page={{pinfo.pageNext}}&limit={{pinfo.pagesLimit}}">Next</a>
-	{% endif %}
+    {% if pinfo.pageNext is defined %}
+    <a href="/posts?page={{pinfo.pageNext}}&limit={{pinfo.pagesLimit}}">Next</a>
+    {% endif %}
 
-	<a href="/posts?page={{pinfo.pageLast}}&limit={{pinfo.pagesLimit}}">Last</a>
+    <a href="/posts?page={{pinfo.pageLast}}&limit={{pinfo.pagesLimit}}">Last</a>
 
-	<p>Total items: {{pinfo.itemsTotal}}</p>
-	<p>Total pages: {{pinfo.pagesTotal}}</p>
+    <p>Total items: {{pinfo.itemsTotal}}</p>
+    <p>Total pages: {{pinfo.pagesTotal}}</p>
 </div>
 ```
 

@@ -44,9 +44,9 @@ If you have lots of directives you want to change you can use process method tha
 
 <pre>
 $directives = array(
-	'display_errors' => 0,
-	'log_errors' => 1,
-	'session.name' => 'SessionCookie',
+    'display_errors' => 0,
+    'log_errors' => 1,
+    'session.name' => 'SessionCookie',
 );
 
 $settings->proccess($directives);
@@ -57,9 +57,9 @@ Or you can define your settings in your config folder, in .php file that returns
 <pre>
 // application/config/settings.php
 return array(
-	'display_errors' => 0,
-	'log_errors' => 1,
-	'session.name' => 'SessionCookie',
+    'display_errors' => 0,
+    'log_errors' => 1,
+    'session.name' => 'SessionCookie',
 );
 
 // Bootstrap.php

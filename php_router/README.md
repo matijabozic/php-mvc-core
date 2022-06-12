@@ -47,17 +47,17 @@ First thing you need to do when working with Router is to define route definitio
 <pre>
 $routes = array(
 
-	'routes' => array(
-		'/about'              => 'Home->index()',
-		'/post'               => 'Blog->post(lang=en)',
-		'/posts/:page:        => 'Blog->posts(lang=en)',
-		'/categories(/:page:) => 'Blog->categories(lang=en, page=1)',
-	),
+    'routes' => array(
+        '/about'              => 'Home->index()',
+        '/post'               => 'Blog->post(lang=en)',
+        '/posts/:page:        => 'Blog->posts(lang=en)',
+        '/categories(/:page:) => 'Blog->categories(lang=en, page=1)',
+    ),
 
-	'tokens' => array(
-		':url:'  => '[a-z]+',
-		':page:' => '[0-9]+',
-	);
+    'tokens' => array(
+        ':url:'  => '[a-z]+',
+        ':page:' => '[0-9]+',
+    );
 
 );
 </pre>
@@ -85,12 +85,12 @@ or in any other way you want. You can use HTTP Request object to get path, or yo
 <pre>
 public function getPath()
 {
-	if(isset($_SERVER['ORIG_PATH_INFO'])) {
-		return $_SERVER['ORIG_PATH_INFO'];
-	} else if(isset($_SERVER['PATH_INFO'])) {
-		return $_SERVER['PATH_INFO'];
-	}
-	return false;
+    if(isset($_SERVER['ORIG_PATH_INFO'])) {
+        return $_SERVER['ORIG_PATH_INFO'];
+    } else if(isset($_SERVER['PATH_INFO'])) {
+        return $_SERVER['PATH_INFO'];
+    }
+    return false;
 }
 </pre>
 
@@ -107,8 +107,8 @@ $router = new \Core\Router\Router($config);
 $route = $router->match($path);
 
 if(null === $route) {
-	// Route is not matched, throw 404!
-	return;
+    // Route is not matched, throw 404!
+    return;
 }
 
 // Prepare data for dispatcher
@@ -125,7 +125,7 @@ $rm = new \ReflectionMethod($app, $method);
 
 $args = array();
 foreach($rm->getParameters() as $param) {
-	$args[$param->getName()] = $params[$param->getName()];
+    $args[$param->getName()] = $params[$param->getName()];
 }
 
 call_user_func_array(array($app, $method), $args);
